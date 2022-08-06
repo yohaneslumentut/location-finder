@@ -29,5 +29,6 @@ module.exports = {
     'implicit-arrow-linebreak': 0,
     'default-param-last': 0,
     'object-curly-newline': 0,
+    'function-paren-newline': 0,
   },
 };

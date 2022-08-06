@@ -1,0 +1,8 @@
+.ping-progress {
+  padding: 20px;
+}
+
+.ping-message {
+  min-height: 50px;
+  padding: 12px;
+}

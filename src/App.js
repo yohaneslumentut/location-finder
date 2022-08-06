@@ -1,17 +1,18 @@
-import { Layout } from 'antd';
-import logo from './assets/logo.svg';
+import { Routes, Route } from 'react-router-dom';
+import HomePage from './pages/Home';
+import CheckPage from './pages/Check';
+import AboutPage from './pages/About';
+import { getPath } from './router-paths';
 import './App.css';
-
-const { Content } = Layout;
 
 function App() {
   return (
     <div className="App">
-      <Layout>
-        <Content>
-          <img src={logo} className="App-logo" alt="logo" />
-        </Content>
-      </Layout>
+      <Routes>
+        <Route path={getPath('home')} element={<HomePage />} />
+        <Route path={getPath('check')} element={<CheckPage />} />
+        <Route path={getPath('about')} element={<AboutPage />} />
+      </Routes>
     </div>
   );
 }

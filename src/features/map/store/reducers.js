@@ -2,6 +2,7 @@ import {
   FETCH_DEFAULT_LOCATION,
   FETCH_DEFAULT_LOCATION_FULFILLED,
   MAP_SCRIPT_LOADED,
+  SET_SELECTED_PLACE,
 } from './types';
 
 const initialState = {
@@ -9,6 +10,7 @@ const initialState = {
   location: null,
   status: null,
   scriptLoaded: false,
+  selectedPlace: null,
 };
 
 export const mapReducer = (state = initialState, action) => {
@@ -31,6 +33,12 @@ export const mapReducer = (state = initialState, action) => {
       return {
         ...state,
         scriptLoaded: true,
+      };
+
+    case SET_SELECTED_PLACE:
+      return {
+        ...state,
+        selectedPlace: action.payload,
       };
 
     default:

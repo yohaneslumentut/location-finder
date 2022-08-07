@@ -1,22 +1,34 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchDefaultLocation } from './index';
+import { fetchDefaultLocation } from './store/actions';
+import { useMapContext } from './context';
 import withGoogleMap from './components/withGoogleMap';
 import Spinner from '../../components/Spinner/Spinner';
 import './Map.css';
 
 function Map({ scriptLoaded, location }) {
-  const mapRef = useRef();
+  const initRef = useRef(false);
+  const [map, setMap] = useState();
   const dispatch = useDispatch();
+  const googleMap = useMapContext();
 
   useEffect(() => {
     dispatch(fetchDefaultLocation());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (map) {
+      const { maps } = window.google;
+      googleMap.initMap(maps, map);
+      initRef.current = true;
+    }
+  }, [googleMap, map]);
+
   const mapNodeRef = useCallback(
     (node) => {
       if (node) {
-        const map = new window.google.maps.Map(node, {
+        const { maps } = window.google;
+        const mapInstance = new maps.Map(node, {
           center: { lat: location.lat, lng: location.lng },
           zoom: 12,
           disableDoubleClickZoom: false,
@@ -27,7 +39,8 @@ function Map({ scriptLoaded, location }) {
           rotateControl: false,
           panControl: false,
         });
-        mapRef.current = map;
+
+        setMap(mapInstance);
       }
     },
     [location],

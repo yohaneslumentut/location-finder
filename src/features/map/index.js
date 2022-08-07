@@ -9,7 +9,9 @@ import {
 import { mapReducer } from './store/reducers';
 import { fetchDefaultLocationEpic } from './store/epics';
 import withGoogleMap from './components/withGoogleMap';
-import { useGoogleMap } from './hooks/useGoogleMap';
+import { useMapContext, useMapContextProvider, MapContext } from './context';
+import Map from './Map';
+import AddressCard from './components/AddressCard';
 
 export {
   FETCH_DEFAULT_LOCATION,
@@ -19,5 +21,10 @@ export {
   fetchDefaultLocationEpic,
   mapReducer,
   withGoogleMap,
-  useGoogleMap,
+  useMapContext,
+  useMapContextProvider,
+  MapContext,
+  AddressCard,
 };
+
+export default Map;

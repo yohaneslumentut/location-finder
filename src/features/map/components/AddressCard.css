@@ -1,0 +1,12 @@
+.address-card > div {
+  padding: 10px;
+  text-align: left;
+}
+
+.address-card-info {
+  margin-bottom: 0;
+}
+
+.address-card-info-title {
+  margin-bottom: 0;
+}

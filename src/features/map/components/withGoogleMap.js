@@ -2,9 +2,10 @@ import { connect } from 'react-redux';
 
 export default function withGoogleMap(Component) {
   function mapStateToProps(state) {
-    const { googleMap } = state;
+    const { googleMap, places } = state;
     return {
       ...googleMap,
+      debouncedSearchTerm: places.debouncedSearchTerm,
     };
   }
 

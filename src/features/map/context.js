@@ -64,12 +64,6 @@ export const useMapContextProvider = () => {
     }
   }, [googleMaps, map]);
 
-  const bounds = useMemo(() => {
-    if (googleMaps) {
-      return new googleMaps.LatLngBounds();
-    }
-  }, [googleMaps]);
-
   const showLocationByPlaceId = useCallback(
     (placeId) => {
       const request = {
@@ -83,21 +77,14 @@ export const useMapContextProvider = () => {
             setMessage('Selected place contains no geometry');
             return;
           }
-
+          map.setCenter(place.geometry.location);
+          map.setZoom(14);
           marker.setPosition(place.geometry.location);
-
-          if (place.geometry.viewport) {
-            bounds.union(place.geometry.viewport);
-          } else {
-            bounds.extend(place.geometry.location);
-          }
-          map.fitBounds(bounds);
-
           setSelectedAddress(place.formatted_address);
         }
       });
     },
-    [bounds, marker, map, places, placesDetails],
+    [marker, map, places, placesDetails],
   );
 
   const searchLocation = useCallback(

@@ -4866,6 +4866,11 @@ globby@^11.0.4, globby@^11.1.0:
     merge2 "^1.4.1"
     slash "^3.0.0"
 
+gmaps-script-loader@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/gmaps-script-loader/-/gmaps-script-loader-0.1.2.tgz#30521c8e462f4d3e07b656e8e83362d4162f26d2"
+  integrity sha512-FdkRaVHesBSdfwJ4+MG3MKrXBykeYCjL3iGr+t30lu5g/DtMCrhBmgrSuMmIiuXBsz3prnVpSvf1ToDk2Yd/KA==
+
 graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4, graceful-fs@^4.2.6, graceful-fs@^4.2.9:
   version "4.2.10"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.10.tgz#147d3a006da4ca3ce14728c7aefc287c367d7a6c"

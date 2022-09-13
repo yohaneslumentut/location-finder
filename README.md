@@ -21,13 +21,24 @@ $ cd location-finder
 $ yarn install
 ```
 
-### 3. Run the app
+### 3. Update `.env` file
+
+Rename `.env.sample` into `.env` and update with your own API keys:
+
+```
+REACT_APP_GOOGLE_MAPS_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   <--- change with your API_KEY
+REACT_APP_API_REGISTRY_KEY=0akdqnt7nu7kswdb
+```
+
+### 4. Run the app
 
 Runs the app in the development mode.
 
 ```sh
 $ yarn start
 ```
+
+### 5. View it in action
 
 Then open `http://localhost:3000` to view it in the browser
 

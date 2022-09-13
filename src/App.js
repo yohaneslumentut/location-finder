@@ -2,8 +2,12 @@ import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useScriptLoader } from 'gmaps-script-loader';
-import { mapScriptLoaded } from './features/map/store/actions';
-import { useMapContextProvider, MapContext } from './features/map';
+import {
+  fetchDefaultLocation,
+  setIsReady,
+  setIsReloadOk,
+  setLang,
+} from './features/map';
 import HomePage from './pages/Home';
 import CheckPage from './pages/Check';
 import AboutPage from './pages/About';
@@ -11,36 +15,43 @@ import { getPath } from './router-paths';
 import './App.css';
 
 const libraries = ['places'];
+const initialLanguage = 'bahasa';
 
 function App() {
   const dispatch = useDispatch();
-  const map = useMapContextProvider();
 
-  const { loadScript, isMapReady } = useScriptLoader({
+  const { loadScript, isMapReady, isReloadOk } = useScriptLoader({
     apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
 
   useEffect(() => {
-    loadScript('id', 'ID');
-  }, [loadScript]);
+    dispatch(setLang(initialLanguage));
+  }, [dispatch]);
 
   useEffect(() => {
-    if (isMapReady) {
-      dispatch(mapScriptLoaded());
-    }
+    dispatch(fetchDefaultLocation());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(setIsReady(isMapReady));
   }, [dispatch, isMapReady]);
 
+  useEffect(() => {
+    dispatch(setIsReloadOk(isReloadOk));
+  }, [dispatch, isReloadOk]);
+
   return (
-    <MapContext.Provider value={map}>
-      <div className="App">
-        <Routes>
-          <Route path={getPath('home')} element={<HomePage />} />
-          <Route path={getPath('check')} element={<CheckPage />} />
-          <Route path={getPath('about')} element={<AboutPage />} />
-        </Routes>
-      </div>
-    </MapContext.Provider>
+    <div className="App">
+      <Routes>
+        <Route
+          path={getPath('home')}
+          element={<HomePage loadScript={loadScript} />}
+        />
+        <Route path={getPath('check')} element={<CheckPage />} />
+        <Route path={getPath('about')} element={<AboutPage />} />
+      </Routes>
+    </div>
   );
 }
 

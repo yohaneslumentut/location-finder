@@ -5,13 +5,19 @@ import {
 import {
   fetchDefaultLocation,
   fetchDefaultLocationFulfilled,
+  setIsReady,
+  setIsReloadOk,
+  setLang,
+  resetMap,
+  setSelectedAddress,
+  setSelectedPlace,
 } from './store/actions';
 import { mapReducer } from './store/reducers';
 import { fetchDefaultLocationEpic } from './store/epics';
 import withGoogleMap from './components/withGoogleMap';
-import { useMapContext, useMapContextProvider, MapContext } from './context';
 import Map from './Map';
 import AddressCard from './components/AddressCard';
+import LanguageSelector from './components/LanguageSelector';
 
 export {
   FETCH_DEFAULT_LOCATION,
@@ -21,10 +27,14 @@ export {
   fetchDefaultLocationEpic,
   mapReducer,
   withGoogleMap,
-  useMapContext,
-  useMapContextProvider,
-  MapContext,
   AddressCard,
+  LanguageSelector,
+  setIsReady,
+  setIsReloadOk,
+  setLang,
+  resetMap,
+  setSelectedAddress,
+  setSelectedPlace,
 };
 
 export default Map;

@@ -1,10 +1,9 @@
 import { Card } from 'antd';
-import { useMapContext } from '../context';
+import withGoogleMap from './withGoogleMap';
+
 import './AddressCard.css';
 
-function AddressCard() {
-  const { selectedAddress, selectedPlace } = useMapContext();
-
+function AddressCard({ selectedAddress, selectedPlace }) {
   return (
     <Card
       className="address-card"
@@ -28,4 +27,4 @@ function AddressCard() {
   );
 }
 
-export default AddressCard;
+export default withGoogleMap(AddressCard);

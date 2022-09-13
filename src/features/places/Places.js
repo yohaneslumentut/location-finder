@@ -2,19 +2,23 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AutoComplete, Input } from 'antd';
-import { useMapContext, withGoogleMap } from '../map/index';
+import {
+  withGoogleMap,
+  setSelectedAddress,
+  setSelectedPlace,
+} from '../map/index';
 import { debounceSearch } from './index';
 
-function Places({ debouncedSearchTerm }) {
-  const [, setValue] = useState('');
+function Places({
+  autocomplete,
+  debouncedSearchTerm,
+  map,
+  marker,
+  places,
+  placesDetails,
+}) {
+  const [searchResult, setSearchResult] = useState([]);
   const dispatch = useDispatch();
-
-  const {
-    searchLocation,
-    searchResult,
-    showLocationByPlaceId,
-    setSelectedPlace,
-  } = useMapContext();
 
   const renderLabel = (item) => (
     <div>
@@ -41,25 +45,52 @@ function Places({ debouncedSearchTerm }) {
   );
 
   useEffect(() => {
-    if (debouncedSearchTerm) {
-      searchLocation(debouncedSearchTerm);
+    if (debouncedSearchTerm && autocomplete) {
+      autocomplete.getPlacePredictions(
+        { input: debouncedSearchTerm },
+        (predictions) => {
+          if (predictions) {
+            setSearchResult(predictions);
+          }
+        },
+      );
     }
-  }, [debouncedSearchTerm, searchLocation]);
+  }, [autocomplete, debouncedSearchTerm]);
 
   const handleSearch = useCallback(
     (searchValue) => {
-      setValue(searchValue);
       if (debounceSearch) dispatch(debounceSearch(searchValue));
     },
-    [dispatch, setValue],
+    [dispatch],
+  );
+
+  const showLocationByPlaceId = useCallback(
+    (placeId) => {
+      const request = {
+        placeId,
+        fields: ['name', 'formatted_address', 'geometry'],
+      };
+
+      placesDetails.getDetails(request, (place, status) => {
+        if (status === places.PlacesServiceStatus.OK) {
+          if (place.geometry) {
+            map.setCenter(place.geometry.location);
+            map.setZoom(14);
+            marker.setPosition(place.geometry.location);
+            dispatch(setSelectedAddress(place.formatted_address));
+          }
+        }
+      });
+    },
+    [dispatch, map, marker, places, placesDetails],
   );
 
   const onSelect = useCallback(
     (_val, options) => {
       showLocationByPlaceId(options.key);
-      setSelectedPlace(options);
+      dispatch(setSelectedPlace(options));
     },
-    [showLocationByPlaceId, setSelectedPlace],
+    [dispatch, showLocationByPlaceId],
   );
 
   return (

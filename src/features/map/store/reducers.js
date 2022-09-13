@@ -1,15 +1,28 @@
 import {
   FETCH_DEFAULT_LOCATION,
   FETCH_DEFAULT_LOCATION_FULFILLED,
-  MAP_SCRIPT_LOADED,
+  RESET_MAP,
+  SET_IS_READY,
+  SET_IS_RELOAD_OK,
+  SET_LANGUAGE,
+  SET_MAP,
+  SET_SELECTED_ADDRESS,
   SET_SELECTED_PLACE,
 } from './types';
 
 const initialState = {
-  isFetching: false,
+  autocomplete: null,
+  map: null,
+  isFetchingLoc: false,
+  isReady: false,
+  isReloadOk: false,
+  language: null,
   location: null,
+  marker: null,
+  places: null,
+  placesDetails: null,
   status: null,
-  scriptLoaded: false,
+  selectedAddress: null,
   selectedPlace: null,
 };
 
@@ -18,21 +31,73 @@ export const mapReducer = (state = initialState, action) => {
     case FETCH_DEFAULT_LOCATION:
       return {
         ...state,
-        isFetching: true,
+        isFetchingLoc: true,
       };
 
     case FETCH_DEFAULT_LOCATION_FULFILLED:
       return {
         ...state,
-        isFetching: false,
+        isFetchingLoc: false,
         location: action.payload,
         status: 'OK',
       };
 
-    case MAP_SCRIPT_LOADED:
+    case SET_LANGUAGE:
       return {
         ...state,
-        scriptLoaded: true,
+        language: action.payload,
+      };
+
+    case SET_IS_READY:
+      return {
+        ...state,
+        isReady: action.payload,
+      };
+
+    case SET_IS_RELOAD_OK:
+      return {
+        ...state,
+        isReloadOk: action.payload,
+      };
+
+    case SET_MAP: {
+      const { google, location, mapConfigs, mapNode } = action.payload;
+
+      if (!google.maps) {
+        return {
+          ...state,
+        };
+      }
+
+      const mapInstance = new google.maps.Map(mapNode, {
+        center: { lat: location.lat, lng: location.lng },
+        ...mapConfigs,
+      });
+
+      return {
+        ...state,
+        autocomplete: new google.maps.places.AutocompleteService(),
+        map: mapInstance,
+        marker: new google.maps.Marker({ map: mapInstance }),
+        places: google.maps.places,
+        placesDetails: new google.maps.places.PlacesService(mapInstance),
+      };
+    }
+
+    case RESET_MAP:
+      return {
+        ...state,
+        autocomplete: null,
+        map: null,
+        marker: null,
+        places: null,
+        placesDetails: null,
+      };
+
+    case SET_SELECTED_ADDRESS:
+      return {
+        ...state,
+        selectedAddress: action.payload,
       };
 
     case SET_SELECTED_PLACE:

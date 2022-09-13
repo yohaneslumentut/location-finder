@@ -1,60 +1,38 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchDefaultLocation } from './store/actions';
-import { useMapContext } from './context';
+import { setMap } from './store/actions';
 import withGoogleMap from './components/withGoogleMap';
-import Spinner from '../../components/Spinner/Spinner';
 import './Map.css';
 
-function Map({ scriptLoaded, location }) {
-  const initRef = useRef(false);
-  const [map, setMap] = useState();
+const mapConfigs = {
+  zoom: 12,
+  disableDoubleClickZoom: false,
+  fullscreenControl: false,
+  keyboardShortcuts: false,
+  streetViewControl: false,
+  scaleControl: false,
+  rotateControl: false,
+  panControl: false,
+};
+
+function Map({ isReady, location }) {
+  const [mapNode, setMapNode] = useState();
   const dispatch = useDispatch();
-  const googleMap = useMapContext();
 
-  useEffect(() => {
-    dispatch(fetchDefaultLocation());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (map) {
-      const { maps } = window.google;
-      googleMap.initMap(maps, map);
-      initRef.current = true;
+  const nodeRef = useCallback((node) => {
+    if (node) {
+      setMapNode(node);
     }
-  }, [googleMap, map]);
+  }, []);
 
-  const mapNodeRef = useCallback(
-    (node) => {
-      if (node) {
-        const { maps } = window.google;
-        const mapInstance = new maps.Map(node, {
-          center: { lat: location.lat, lng: location.lng },
-          zoom: 12,
-          disableDoubleClickZoom: false,
-          fullscreenControl: false,
-          keyboardShortcuts: false,
-          streetViewControl: false,
-          scaleControl: false,
-          rotateControl: false,
-          panControl: false,
-        });
+  useEffect(() => {
+    const { google } = window;
+    if (isReady && location && mapNode) {
+      dispatch(setMap({ google, mapNode, location, mapConfigs }));
+    }
+  }, [dispatch, isReady, location, mapNode]);
 
-        setMap(mapInstance);
-      }
-    },
-    [location],
-  );
-
-  if (!scriptLoaded || !location) {
-    return (
-      <div>
-        <Spinner />
-      </div>
-    );
-  }
-
-  return <div className="map" ref={mapNodeRef} />;
+  return <div className="map" ref={nodeRef} />;
 }
 
 export default withGoogleMap(Map);

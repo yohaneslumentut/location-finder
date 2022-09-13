@@ -1,6 +1,6 @@
 # Location Finder App
 
-A sample application for `gmaps-script-loader` react hook on React + redux-observable epic+ Google Maps. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+A sample application for [gmaps-script-loader](https://www.npmjs.com/package/gmaps-script-loader) react hook on React + redux-observable epic+ Google Maps. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ![image](./src/assets/images/readme.png)
 

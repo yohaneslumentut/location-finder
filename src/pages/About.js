@@ -28,7 +28,7 @@ function AboutPage() {
         </Paragraph>
         <Avatar
           style={styles.avatar}
-          src="https://www.npmjs.com/npm-avatar/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdmF0YXJVUkwiOiJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci82N2JkZjhjM2JhNjk4ZmQ4NmQ1MWJiOTM0M2VmZDRhYT9zaXplPTQ5NiZkZWZhdWx0PXJldHJvIn0.9CVdUUum__YCR-wVow3JrkozkLai9vXQg8o6prXUX2s"
+          src="https://www.npmjs.com/npm-avatar/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdmF0YXJVUkwiOiJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci82N2JkZjhjM2JhNjk4ZmQ4NmQ1MWJiOTM0M2VmZDRhYT9zaXplPTUwJmRlZmF1bHQ9cmV0cm8ifQ.x1SCwRpLQ3LIO-_1J2HXRWxUstAkCG0AXIXzGblwqKs"
         />
         <Paragraph style={styles.paragraphInfo}>
           <EnvironmentOutlined /> Jakarta
